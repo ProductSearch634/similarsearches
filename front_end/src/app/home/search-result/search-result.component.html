@@ -1,0 +1,187 @@
+<div class="container-fluid">
+    <main class="row" [style.padding]="'50px'"> 
+        <!-- <aside class="col-md-3 d-flex justify-content-center"> 
+            <div class="position-fixed text-center">
+            <div class="search-container-2">
+                <img src="https://m.media-amazon.com/images/I/310ofQZuU1L._SY300_SX300_.jpg" alt="Product Image">
+                <div class="search-wrapper">
+                    <button class="search-btn">Search new product</button>
+                </div>
+            </div>
+
+        </div>
+        </aside> -->
+        <div class="col-md-1"></div>
+        <section class="col-md-10" [style.background]="'#fff'" [style.padding]="'30px'" [style.borderRadius]="'20px'"> 
+            <header class="grid-list-view mb-5"> 
+                <div>
+                    <h1 class="mb-2">Search Results</h1> 
+                    <p class="mb-0"><strong>Total results found:</strong> <span class="ms-1">{{productsList?.length}}</span></p>
+                </div>
+                <div class="position-relative">
+                    <input (keyup.enter)="searchProduct()" [(ngModel)]="url" class="image-search-input" type="text" name="" id="" placeholder="Paste the URL of image">
+                    <img class="position-absolute" [style.width]="'22px'" [style.right]="'4%'" [style.top]="'26%'" src="assets/images/search.svg" alt="" (click)="searchProduct()">
+                </div>
+                <div class="d-flex justify-content-center align-items-center gap-4">
+                    <a 
+                        [ngClass]="{'active-view': showGridView}"
+                        [style.border]="'none'"
+                        (click)="showGridView = true"
+                        aria-label="Switch to grid view">
+                        <img src="assets/images/grid.svg" alt="Grid view icon" width="24" height="24">
+                    </a>
+                    <a 
+                        [ngClass]="{'active-view': !showGridView}"
+                        [style.border]="'none'"
+                        (click)="showGridView = false"
+                        aria-label="Switch to list view">
+                        <img src="assets/images/list.svg" alt="List view icon" width="24" height="24">
+                    </a>
+                </div>
+            </header>
+            <ng-container *ngIf="productsList?.length; else noProductFound">
+            @if (showGridView) {
+            <section class="products-grid" role="grid" aria-label="Products grid view">
+                @for (prod of productsList; track $index) {
+                <div class="product-card">
+                    <div class="d-flex justify-content-center">
+                    <img [src]="prod?.imageUrl" alt="Red Chief Men's Cool Shoes" class="product-image">
+                    </div>
+                        <div class="price-tag">{{prod?.price}}</div>
+                    <div class="brand">{{prod?.brand}}</div>
+                    
+                    <div class="product-name">{{prod?.productName}}</div>
+                    
+                    <div class="rating">
+                        <div class="stars">★★★★★</div>
+                        <span class="review-count">({{prod?.numberOfReviews}})</span>
+                    </div>
+                    
+                    <div class="stock-status">
+                        <div [ngClass]="{'inStockbg': prod?.stockStatus == 'In stock', 'uknownStockbg': prod?.stockStatus == 'Stock status unknown', 'outOfStockbg': prod?.stockStatus == 'Out Of Stock' }" class="stock-dot"></div>
+                        <span [ngClass]="{'inStock': prod?.stockStatus == 'In stock', 'uknownStock': prod?.stockStatus == 'Stock status unknown', 'outOfStock': prod?.stockStatus == 'Out Of Stock' }">
+                            {{prod?.stockStatus}}
+                        </span>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="button-secondary">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                            </svg>
+                            Share
+                        </button>
+                        <button class="button-secondary" (click)="searchNewProduct(prod?.imageUrl)">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                            Similar
+                        </button>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
+                    <a [href]="prod?.url" target="_blank" class="button-primary text-center">View Deal</a>
+                    </div>
+                </div>
+            }
+
+            </section>
+             }
+            @else {
+            <section class="products-list" role="list" aria-label="Products list view">
+                @for (prod of productsList; track $index) {
+                <div class="product-list-item">
+                    <div class="product-image-container">
+                        <img [src]="prod?.imageUrl" alt="" class="product-image">
+                    </div>
+                    
+                    <div class="product-details">
+                        <div class="product-header">
+                            <div class="product-title-section">
+                                <div class="brand">{{prod?.brand}}</div>
+                                <div class="product-name">{{prod?.productName}}</div>
+                            </div>
+                            <div class="price-tag">{{prod?.price}}</div>
+                        </div>
+                        
+                        <div class="product-info">
+                            <div class="rating">
+                                <div class="stars">★★★★★</div>
+                                <span class="review-count">({{prod?.numberOfReviews}})</span>
+                            </div>
+                            
+                            <div class="stock-status">
+                                <div [ngClass]="{'inStockbg': prod?.stockStatus == 'In stock', 'uknownStockbg': prod?.stockStatus == 'Stock status unknown', 'outOfStockbg': prod?.stockStatus == 'Out Of Stock' }" class="stock-dot"></div>
+                                <span [ngClass]="{'inStock': prod?.stockStatus == 'In stock', 'uknownStock': prod?.stockStatus == 'Stock status unknown', 'outOfStock': prod?.stockStatus == 'Out Of Stock' }">
+                                    {{prod?.stockStatus}}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="button-container">
+                            <div class="button-group">
+                                <button class="button-secondary">
+                                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                                    </svg>
+                                    Share
+                                </button>
+                                <button class="button-secondary" (click)="searchNewProduct(prod?.imageUrl)">
+                                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                    </svg>
+                                    Similar
+                                </button>
+                            </div>
+                            
+                            <a [href]="prod?.url" target="_blank" class="button-primary">View Deal</a>
+                        </div>
+                    </div>
+                </div>
+            }
+            </section>
+            }
+        </ng-container>
+        <ng-template #noProductFound>
+            <div class="no-product-found d-flex flex-column justify-content-center align-items-center text-center mb-5">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" [style.width]="'200px'">
+                    <text x="45" y="45" font-size="24" fill="#808080">?</text>
+                    
+                    <path d="M60 60 L140 60 L140 160 L60 160 Z" 
+                          fill="none" 
+                          stroke="#808080" 
+                          stroke-width="4"/>
+                    
+                    <path d="M80 60 C80 40, 120 40, 120 60" 
+                          fill="none" 
+                          stroke="#808080" 
+                          stroke-width="4"/>
+                    
+                    <circle cx="85" cy="100" r="3" fill="#808080"/>
+                    <circle cx="115" cy="100" r="3" fill="#808080"/>
+                    
+                    <path d="M85 130 Q100 120 115 130" 
+                          fill="none" 
+                          stroke="#808080" 
+                          stroke-width="3"/>
+                          
+                    <circle cx="40" cy="90" r="3" fill="#808080" opacity="0.5"/>
+                    <text x="160" y="70" font-size="16" fill="#808080" opacity="0.5">×</text>
+                    <text x="145" y="110" font-size="16" fill="#808080" opacity="0.5">○</text>
+                    <text x="50" y="140" font-size="16" fill="#808080" opacity="0.5">+</text>
+                  </svg>
+                <p class="not-found-message">No Exact Products Found!</p>
+                <p class="text-secondary">Try searching with a different image URL</p>
+            </div>
+        </ng-template>
+        </section>
+        <div class="col-md-1"></div>
+    </main>
+</div>
+
+<app-progress-loader [loading]="loading$ | async"></app-progress-loader>
+
+
+<div *ngIf="isVisible" class="go-to-top" data-aos="fade-up"
+(click)="scrollToTop()">
+    <img src="assets/images/arrow-up.svg" alt="">
+</div>

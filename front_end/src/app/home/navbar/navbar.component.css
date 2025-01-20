@@ -1,0 +1,19 @@
+.nav-links{
+        display: flex;
+        gap: 40px;
+        list-style-type: none;
+        font-weight: 700;
+        cursor: pointer;
+        background: white;
+        margin-top: 20px;
+        border-radius: 30px;
+        padding: 20px;
+}
+
+.nav-links li{  
+    font-size: 18px;
+}
+
+.active{
+    color: #998ddd;
+}

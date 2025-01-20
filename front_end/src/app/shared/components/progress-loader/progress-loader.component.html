@@ -1,0 +1,47 @@
+<!-- <div class="loader-container" *ngIf="loading">
+    <div class="progress-bar">
+      <div class="progress" [style.width.%]="progress">
+        <span class="progress-text">{{progress | number:'1.0-0'}}%</span>
+      </div>
+    </div>
+    <p class="message">
+    Searching the internet!!! hang on!!
+    </p>
+  </div>
+ -->
+
+
+ <!-- <div class="loader-container" *ngIf="loading">
+  <div class="circular-progress">
+    <div class="progress-circle">
+      <svg viewBox="0 0 100 100">
+        <circle class="progress-background" cx="50" cy="50" r="45"></circle>
+        <circle class="progress-bar" cx="50" cy="50" r="45"
+          [style.strokeDashoffset.%]="100 - progress"></circle>
+      </svg>
+      <div class="progress-text">{{progress | number:'1.0-0'}}%</div>
+    </div>
+  </div>
+  <p class="message">{{ currentMessage }}</p>
+</div> -->
+
+
+<div class="loader-container" *ngIf="loading">
+  <div class="circular-progress">
+    <div class="progress-circle">
+      <svg viewBox="0 0 100 100">
+        <defs>
+          <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#4CAF50" />
+            <stop offset="100%" style="stop-color:#8BC34A" />
+          </linearGradient>
+        </defs>
+        <circle class="progress-background" cx="50" cy="50" r="45"></circle>
+        <circle class="progress-bar" cx="50" cy="50" r="45"
+          [style.strokeDashoffset]="calculateOffset()"></circle>
+      </svg>
+      <div class="progress-text">{{progress | number:'1.0-0'}}%</div>
+    </div>
+  </div>
+  <p class="message">{{ currentMessage }}</p>
+</div>

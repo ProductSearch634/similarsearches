@@ -1,0 +1,674 @@
+model brandcategory {
+  id            Int        @id @default(autoincrement())
+  brandcategory_url  String?
+  brandcategory_name String?
+  parent_id      Int?    
+  parent        brandcategory?  @relation("brandCategoryChildRelation", fields: [parent_id], references: [id])
+  children      brandcategory[] @relation("brandCategoryChildRelation")
+  brand_name      String?
+  specs_value   String?
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum product_type {
+  general
+  vendor_specific
+}
+
+model category_url {
+  id         String    @id
+  url        String    @unique
+  category   String
+  name       String?
+  created_at DateTime  @default(now())
+  updated_at DateTime? @default(now()) @updatedAt
+}
+
+model deep_url {
+  id                                   String                                 @id
+  url                                  String                                 @unique
+  results                              Int //number of  product counts 
+  category                             String
+  created_at                           DateTime                               @default(now())
+  updated_at                           DateTime?                              @default(now()) @updatedAt
+  status                               Boolean                                @default(false)
+  name                                 String                                 @default("NA")
+  level4_category                      String?
+  level5_category                      String?
+  level6_category                      String?
+  level7_category                      String?
+  sub_category                         String?
+  sub_sub_category                     String?
+  categorywise_keywords_search_volumes categorywise_keywords_search_volumes[]
+  currently_active_deepUrl_request     currently_active_deepUrl_request?
+}
+
+model level4_category {
+  id               String    @id
+  url              String    @unique
+  results          Int //Number of products Counts
+  sub_sub_category String
+  name             String?
+  created_at       DateTime  @default(now())
+  updated_at       DateTime? @default(now()) @updatedAt
+}
+
+model level5_category {
+  id              String    @id
+  url             String    @unique
+  results         Int //Number of products Counts
+  level4_category String
+  name            String?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime? @default(now()) @updatedAt
+}
+
+model level6_category {
+  id              String    @id
+  url             String    @unique
+  results         Int //Number of products Counts
+  level5_category String
+  name            String?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime? @default(now()) @updatedAt
+}
+
+model level7_category {
+  id              String    @id
+  url             String    @unique
+  results         Int //Number of products Counts
+  level6_category String
+  name            String?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime? @default(now()) @updatedAt
+}
+
+//Name field is the product name which is bought with product whose id is product_id 
+//All the related fields are linked to name field
+model often_bought_together_products {
+  id              Int             @id @default(autoincrement())
+  product_id      String
+  name            String
+  price           Float?
+  discount_price  Float?
+  url             String
+  image_url       String?
+  created_at      DateTime        @default(now())
+  updated_at      DateTime?       @default(now()) @updatedAt
+  product_details product_details @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+//Not in Use 
+//Remove this Table
+model product_amount {
+  id              Int             @id @default(autoincrement())
+  product_id      String
+  amount          Int
+  created_at      DateTime        @default(now())
+  updated_at      DateTime?       @default(now()) @updatedAt
+  product_details product_details @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+//Main Product Details Table Linked To Main ScrapperDB
+// Study it wisely
+model product_details {
+  id                                   String                                 @id
+  url                                  String                                 @unique
+  brand_name                           String?
+  image                                String?
+  title                                String
+  title_length                         Int
+  category                             String
+  subcategory                          String
+  product_category                     String
+  price                                Float
+  delivery_time                        String?
+  seller                               String?
+  seller_rating                        Int?
+  product_comparison                   String?
+  subsubcategory                       String?
+  level5_category                      String?
+  level6_category                      String?
+  level7_category                      String?
+  number_of_all_seller_reviews         Int?
+  number_of_positive_seller_reviews    Int?
+  number_of_negative_seller_reviews    Int?
+  number_of_neutral_seller_reviews     Int?
+  seller_active_date                   String?
+  is_selected                          Boolean                                @default(false)
+  bussiness_address                    String?
+  chamber_of_company                   String?
+  discount_price                       Float                                  @default(0)
+  series                               String?
+  vat_number                           String?
+  trade_name                           String?
+  meta_desc                            String?
+  meta_title                           String?
+  in_stock                             String?
+  created_at                           DateTime                               @default(now())
+  updated_at                           DateTime?                              @default(now()) @updatedAt
+  hsn_code                             String?
+  max_qty                              Int?
+  high_discount_perc                   Float?
+  small_specs                          String?
+  danger_level                         String?
+  product_type                         product_type                           @default(general)
+  also_checkout_products               also_checkout_products[]
+  keyword_rank_details                 keyword_rank_details[]
+  often_bought_together_products       often_bought_together_products[]
+  others_watch_too_products            others_watch_too_products[]
+  product_amount                       product_amount[]
+  product_review_people                product_review_people[]
+  product_reviews                      product_reviews[]
+  product_specification                product_specification[]
+  product_usps                         product_usps[]
+  related_products                     related_products[]
+  search_volume_details                search_volume_details[]
+  seller_details                       seller_details[]
+  staffel_discounts                    staffel_discounts[]
+  variant_details                      variant_details[]
+  version_details                      version_details[]
+  product_vendor                       product_vendor[]
+  categorywise_keywords_search_volumes categorywise_keywords_search_volumes[]
+  doogle_products_details              doogle_products_details[]
+}
+
+//Information Related to all the Products Review 
+//And Who review it.
+model product_review_people {
+  id               Int             @id @default(autoincrement())
+  product_id       String
+  name             String? //Person Who review that Product like John Carter review for a product Name "Asus Max Pro Mobile"
+  rating           String?
+  main_review      String?
+  pros_keywords    String?
+  cons_keywords    String?
+  long_description String?
+  likes            Int?
+  dislike          Int?
+  review_date      String?
+  age              String? //Strange But True
+  created_at       DateTime        @default(now())
+  updated_at       DateTime?       @default(now()) @updatedAt
+  product_details  product_details @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+//Over All Rating of a perticular product
+model product_reviews {
+  id              Int             @id @default(autoincrement())
+  product_id      String
+  rating          Int // 1 to 100 from Bol.com  we convert it into 1 to 10   
+  reviews         Int
+  last_review     String?
+  created_at      DateTime        @default(now())
+  updated_at      DateTime?       @default(now()) @updatedAt
+  product_details product_details @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+//Specification About Product  or can say More Depth Details About the Product
+model product_specification {
+  product_id      String
+  id              Int             @id @default(autoincrement())
+  specs_key       String
+  specs_value     String
+  created_at      DateTime        @default(now())
+  updated_at      DateTime?       @default(now()) @updatedAt
+  product_details product_details @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+//Not In Use 
+// Remove that Table After development
+model product_url {
+  id         String    @id
+  url        String    @unique
+  selected   Boolean
+  created_at DateTime  @default(now())
+  updated_at DateTime? @default(now()) @updatedAt
+}
+
+//Not In Use Development Bol.com Removed That Section
+model related_products {
+  id              Int             @id @default(autoincrement())
+  product_id      String
+  name            String
+  price           Float
+  discount_price  Float?
+  url             String
+  image_url       String
+  created_at      DateTime        @default(now())
+  updated_at      DateTime?       @default(now()) @updatedAt
+  product_details product_details @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+//Fetch All the products from Watched products Section
+model others_watch_too_products {
+  id              Int             @id @default(autoincrement())
+  product_id      String
+  name            String
+  price           Float
+  discount_price  Float?
+  url             String
+  image_url       String
+  created_at      DateTime        @default(now())
+  updated_at      DateTime?       @default(now()) @updatedAt
+  product_details product_details @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+//Fetch All the products from Also Checkout products Section Bol Recommendations
+model also_checkout_products {
+  id              Int             @id @default(autoincrement())
+  product_id      String
+  name            String
+  price           Float
+  discount_price  Float?
+  url             String
+  image_url       String
+  sponsored       String
+  created_at      DateTime        @default(now())
+  updated_at      DateTime?       @default(now()) @updatedAt
+  product_details product_details @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  deep_urlId      String?
+}
+
+//Main Seller Details
+//We dont fetch product who have no Seller
+//Or can say those product which are directly sold by Bol.com we dont fetch them
+model seller_details {
+  id                        Int             @id @default(autoincrement())
+  product_id                String
+  seller_name               String
+  rating                    Float?
+  return_policy             String?
+  price                     Float?
+  delivery_terms            String?
+  is_shipping_cost_included Boolean?
+  created_at                DateTime        @default(now())
+  updated_at                DateTime?       @default(now()) @updatedAt
+  product_details           product_details @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+//Level 2 Category
+model sub_category {
+  id         String    @id
+  url        String    @unique
+  results    Int
+  category   String
+  name       String?
+  created_at DateTime  @default(now())
+  updated_at DateTime? @default(now()) @updatedAt
+}
+
+//Level 3 Categrory
+model sub_sub_category {
+  id           String    @id
+  url          String    @unique
+  results      Int
+  sub_category String
+  name         String?
+  created_at   DateTime  @default(now())
+  updated_at   DateTime? @default(now()) @updatedAt
+}
+
+//Stored Information Regarding if Seller have similar product products
+model variant_details {
+  id              Int             @id @default(autoincrement())
+  product_id      String
+  url             String          @unique
+  title           String
+  price           Decimal         @db.Decimal
+  created_at      DateTime        @default(now())
+  updated_at      DateTime?       @default(now()) @updatedAt
+  product_details product_details @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+//While Scrapping if the product title price nunber oF all seller reviews changes it will stored that information
+//productId is generated by encrypted url if the same url found in productDetail table then it will store that information here
+model version_details {
+  id                           Int             @id @default(autoincrement())
+  product_id                   String
+  title                        String?
+  price                        String?
+  number_of_all_seller_reviews String?
+  created_at                   DateTime        @default(now())
+  updated_at                   DateTime?       @default(now()) @updatedAt
+  product_details              product_details @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+//This Table is Stored Information Regarding
+//All About seller and his products
+model seller_product_details {
+  id                                 String                @id
+  name                               String
+  total_count                        Int //How Many Product Seller Have
+  created_at                         DateTime              @default(now())
+  updated_at                         DateTime?             @default(now()) @updatedAt
+  last_3_months_reviews              Int?
+  overall_general_rating             Float?
+  overall_rating_contact             Float?
+  overall_rating_delivery            Float?
+  overall_rating_deliverytime        Float?
+  overall_rating_product_information Float?
+  perc_of_positive_reviews           Float?
+  rating                             Float?
+  seller_rating_infos                seller_rating_infos[]
+}
+
+//Iss Seller k Pass Iss Category k Itne Products Hai
+//Stored Information Regarding this Seller have that much products of this this category
+model seller_product_category_detail {
+  id            Int       @id @default(autoincrement())
+  category_name String
+  total_count   Int
+  seller_id     String
+  created_at    DateTime  @default(now())
+  updated_at    DateTime? @default(now()) @updatedAt
+}
+
+//Different Different Price based on Diferennt Quantity
+model staffel_discounts {
+  id              Int             @id @default(autoincrement())
+  product_id      String
+  qty             Int
+  price           Float
+  created_at      DateTime        @default(now())
+  updated_at      DateTime?       @default(now()) @updatedAt
+  product_details product_details @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+//While Scrapping Products this Table stored information About the Page no
+//of a scrapped deep_url so that it could continue scrapping from the next page
+//other wise Duplicate products will be added
+model current_deep_url {
+  id           Int       @id @default(autoincrement())
+  url          String
+  created_at   DateTime  @default(now())
+  updated_at   DateTime? @default(now()) @updatedAt
+  current_page Int
+}
+
+//This Table Stored Information About the 
+model completed_deep_urls {
+  id         Int       @id @default(autoincrement())
+  url        String    @unique
+  created_at DateTime  @default(now())
+  updated_at DateTime? @default(now()) @updatedAt
+}
+
+model product_usps {
+  id              Int             @id @default(autoincrement())
+  usp             String
+  created_at      DateTime        @default(now())
+  product_id      String
+  updated_at      DateTime?       @default(now()) @updatedAt
+  product_details product_details @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model seller_rating_infos {
+  id                     Int                    @id @default(autoincrement())
+  seller_id              String
+  general_opinion_rating Int?
+  product_info_rating    Int?
+  delivery_time_rating   Int?
+  delivery_rating        Int?
+  contact_rating         Int?
+  negative_point         String?
+  positive_point         String?
+  name                   String?
+  created_date           String?
+  seller_product_details seller_product_details @relation(fields: [seller_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model risk_level_details {
+  id         Int      @id @default(autoincrement())
+  level      Int      @unique
+  keywords   String[]
+  specs      Json[]
+  created_at DateTime @default(now())
+  created_by Json
+  updated_at DateTime @default(now()) @updatedAt
+  updated_by Json
+}
+
+model search_volume_details {
+  id              Int             @id @default(autoincrement())
+  product_id      String
+  be_count        Int
+  nl_count        Int
+  total_count     Int
+  keyword         String
+  product_details product_details @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model keyword_rank_details {
+  id              Int             @id @default(autoincrement())
+  product_id      String
+  keyword         String
+  rank            Int
+  product_details product_details @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model time_taking_tasks {
+  id         Int      @id @default(autoincrement())
+  product_id String
+  sequence   Int
+  status     String   @default("inactive")
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+}
+
+model total_scrapped_products_count_in_all_categories {
+  id         Int    @id @default(autoincrement())
+  request_id String
+  count      Int
+}
+
+model currently_active_scrapper_request_by_multi_deepurl {
+  id          Int    @id @default(autoincrement())
+  request_id  String
+  deep_url_id String
+  product_id  String
+}
+
+model product_vendor {
+  id               Int             @id @default(autoincrement())
+  product_id       String
+  vendor_object_id String
+  firstname        String?
+  lastname         String?
+  ownername        String?
+  company_name     String?
+  company_type     String?
+  phone            String?
+  email            String
+  no_of_employees  String?
+  line1            String?
+  line2            String?
+  landmark         String?
+  city             String?
+  state            String?
+  pin_code         String?
+  country          String?
+  product_details  product_details @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model bol_token_details {
+  id           Int      @id @default(autoincrement())
+  access_token String
+  expires_in   Int
+  created_at   DateTime @default(now())
+  updated_at   DateTime @default(now()) @updatedAt
+}
+
+model categorywise_keywords_search_volumes {
+  id                    Int                     @id @default(autoincrement())
+  request_id            String
+  deep_url_id           String
+  keyword               String
+  product_id            String
+  rank                  Int
+  be_search_volume      Int
+  nl_search_volume      Int
+  google_search_volume  Int
+  deep_url              deep_url                @relation(fields: [deep_url_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product_details       product_details         @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  max_qty_track_details max_qty_track_details[]
+  created_at            DateTime                @default(now())
+  updated_at            DateTime                @default(now()) @updatedAt
+}
+
+model max_qty_track_details {
+  id                                      Int                                  @id @default(autoincrement())
+  categorywise_keywords_search_volumes_id Int
+  qty                                     Int
+  status                                  String                               @default("Old Stock")
+  price                                   Float
+  created_at                              DateTime                             @default(now())
+  updated_at                              DateTime                             @default(now()) @updatedAt
+  categorywise_keywords_search_volumes    categorywise_keywords_search_volumes @relation(fields: [categorywise_keywords_search_volumes_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model max_qty_track_tasks {
+  id                                      Int      @id @default(autoincrement())
+  product_id                              String
+  categorywise_keywords_search_volumes_id Int
+  created_at                              DateTime @default(now())
+  updated_at                              DateTime @default(now()) @updatedAt
+}
+
+model currently_active_scrapper_request {
+  id           Int      @id @default(autoincrement())
+  req_id       String
+  request_type String
+  deep_url_id  String?
+  status       String   @default("active")
+  created_at   DateTime @default(now())
+  updated_at   DateTime @default(now()) @updatedAt
+}
+
+model currently_active_deepUrl_request {
+  id          Int      @id @default(autoincrement())
+  deep_url_id String   @unique()
+  status      String   @default("active")
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
+  deep_url    deep_url @relation(fields: [deep_url_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model GoogleKeyWordsWithDeepUrl {
+  id          Int      @id @default(autoincrement())
+  deep_url_id String   
+  Keyword     String   @default("")
+  Competition String   @default("Undefined")
+  Competition_indexed_value String @default("0")
+  text String 
+  Avg_monthly_searches  String @default("0")
+  lowTopOfPageBidMicros String @default("0")
+  highTopOfPageBidMicros String @default("0")
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
+}
+
+model salesTrackingKeywords {
+   id          Int      @id @default(autoincrement())
+  uniqueKeyword String   
+  deep_url_id     String   @default("")
+  be_search_volume  Int    @default(0)
+  nl_search_volume  Int    @default(0)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
+}
+
+model uniqueKeyword_product_list {
+   id          Int      @id @default(autoincrement())
+  product_title   String   
+  ean_number     String   @default("")
+  deep_url_id    String  @default("")
+  product_rank   Int     
+  status         Boolean @default(false)
+  unique_keyword  String  @default("")
+  scrapped  String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
+}
+
+model productplacementrecord {
+  id                Int      @id @default(autoincrement())
+  ean_number        String
+  categoryId        String
+  categoryName      String   @default("")
+  subcategoryId     String?
+  subcategoryName   String?  @default("")
+  subsubcategoryId  String?
+  subsubcategoryName String? @default("")
+  level4Id          String?
+  level4Name        String?  @default("")
+  level5Id          String?
+  level5Name        String?  @default("")
+  level6Id          String?
+  level6Name        String?  @default("")
+  level7Id          String?
+  level7Name        String?  @default("")
+  deep_url_id       String   @default("")
+  created_at        DateTime @default(now())
+  updated_at        DateTime @default(now()) @updatedAt
+}
+
+model trackprocessno {
+  id        Int     @id @default(autoincrement())
+  type      String  @default("pending")
+  status    String  @default("pending")
+  deep_url_id String  @default("pending") @unique()
+  category   String   @default("unKnown")
+  counts    Int       @default(0)
+  index Int  @default(0)
+}
+
+// schema.prisma
+
+model sponsored_products {
+  id        Int     @id @default(autoincrement())
+  product_id                              String
+  brand              String?
+  brandUrl           String?
+  title              String?
+  productUrl         String?
+  material           String?
+  description        String?
+  currentPrice       String?
+  originalPrice      String?
+  discountPercentage String?
+  deliveryStatus     String?
+  deliveryEstimate   String?
+  sellerName         String?
+  sellerUrl          String?
+  sponsored          Boolean?
+  product_category   String?
+}
+
+model doogle_products_details {
+  id                Int      @id @default(autoincrement())
+  product_id       String
+  product_name     String
+  price            String
+  retailer         String
+  number_of_reviews String
+  stock_status     String
+  brand            String
+  url              String
+  image_url        String
+  created_at       DateTime @default(now()) // Automatically set to current date/time when created
+  updated_at       DateTime @updatedAt // Automatically updated to current date/time when modified
+  @@unique([product_id, brand, url]) // Unique composite index
+  product_details  product_details @relation(fields: [product_id], references: [id])
+}
+
+
