@@ -18,7 +18,7 @@ const app = express();
 const server = createServer(app);
 
 const logger: Logger = createLogger({
-  name: 'time-taking-tasks',
+  name: 'products',
   level: debug ? 'debug' : 'info',
   timestamp() {
     return getTimestamp();
