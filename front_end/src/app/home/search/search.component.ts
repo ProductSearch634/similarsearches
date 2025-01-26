@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DataService } from '../../core/services/data.service';
 import { Router } from '@angular/router';
 import { ProgressLoaderComponent } from '../../shared/components/progress-loader/progress-loader.component';
+import { DeviceDetectionService } from '../../shared/services/device-detection.service';
 
 @Component({
   selector: 'app-search',
@@ -16,10 +17,17 @@ export class SearchComponent {
   url: any;
   dataService : DataService = inject(DataService);
   router: Router = inject(Router);
+  detectionService : DeviceDetectionService = inject(DeviceDetectionService);
 
   loading$ = this.dataService.loading$;
 
   ngOnInit(){
+
+    console.log(this.detectionService.getDeviceInfo());
+
+  }
+
+  constructor(){
   }
 
   searchProduct(){
