@@ -2,14 +2,14 @@
   "name": "ps_code",
   "version": "1.0.0",
   "main": "back_end/front_end",
-  "Front_End_Developer" : "Yatender Rawat",
-  "Back_End_Developer" : "Mohd Faizan",
-  "project_start_date" : "2024-11-01",
-  "first_release_date" : "2025-03-03",
+  "Front_End_Developer": "Yatender Rawat",
+  "Back_End_Developer": "Mohd Faizan",
+  "project_start_date": "2024-11-01",
+  "first_release_date": "2025-03-03",
   "scripts": {
-    "start:backend": "node back_end/index.js",
-    "start:frontend": "ng serve --project front_end",
-    "start:all": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+    "dev": "concurrently \"npm run dev --prefix back_end\" \"npm run start --prefix front_end\"",
+    "build": "concurrently \"npm run build --prefix back_end\" \"npm run build --prefix front_end\"",
+    "start": "concurrently \"npm run start --prefix back_end\" \"npm run start --prefix front_end\""
   },
   "keywords": [],
   "author": "",
@@ -18,5 +18,8 @@
   "description": "",
   "devDependencies": {
     "concurrently": "^9.1.2"
+  },
+  "dependencies": {
+    "ts-node": "^10.9.2"
   }
 }
