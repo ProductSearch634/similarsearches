@@ -1,9 +1,15 @@
 {
   "name": "ps_code",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "back_end/front_end",
+  "Front_End_Developer" : "Yatender Rawat",
+  "Back_End_Developer" : "Mohd Faizan",
+  "project_start_date" : "2024-11-01",
+  "first_release_date" : "2025-03-03",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:backend": "node back_end/index.js",
+    "start:frontend": "ng serve --project front_end",
+    "start:all": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
   },
   "keywords": [],
   "author": "",
