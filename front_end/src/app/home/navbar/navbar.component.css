@@ -1,17 +1,23 @@
 .nav-links{
-        display: flex;
-        gap: 40px;
-        list-style-type: none;
-        font-weight: 700;
-        cursor: pointer;
-        background: white;
-        margin-top: 20px;
-        border-radius: 30px;
-        padding: 20px;
+    display: flex;
+    gap: 40px;
+    list-style-type: none;
+    font-weight: 700;
+    cursor: pointer;
+    /* background: white; */
+    margin-top: 20px;
+    /* border-radius: 30px; */
+    padding: 20px;
+    width: 100%;
+    justify-content: start;
 }
 
 .nav-links li{  
-    font-size: 18px;
+    font-size: 19px;
+    color: white;
+    &:hover{
+        color: #ffffffe0;
+    }
 }
 
 .active{

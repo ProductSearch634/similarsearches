@@ -8,8 +8,12 @@ export const routes: Routes = [
         children: [
             {
                 path:'',
-                redirectTo: 'search',
+                redirectTo: 'home',
                 pathMatch: 'full'
+            },
+            {
+                path:'home',
+                loadComponent: ()=>import('./home/landing-page/landing-page.component').then(c=>c.LandingPageComponent)
             },
             {
                 path:'search',

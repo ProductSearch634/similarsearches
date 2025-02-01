@@ -4,12 +4,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProgressLoaderComponent } from '../../shared/components/progress-loader/progress-loader.component';
 import { RouterModule } from '@angular/router';
+import { SkeletonModule } from 'primeng/skeleton';
 
 import * as AOS from 'aos';
 
 @Component({
   selector: 'app-search-result',
-  imports: [CommonModule, FormsModule, ProgressLoaderComponent, RouterModule],
+  imports: [CommonModule, FormsModule, ProgressLoaderComponent, RouterModule, SkeletonModule],
   templateUrl: './search-result.component.html',
   styleUrl: './search-result.component.css'
 })
@@ -122,13 +123,19 @@ export class SearchResultComponent {
 
   isVisible = false;
   scrollThreshold = 300;
+  loading : boolean = false;
 
   ngOnInit(){
-    this.productsList = this.dataService.productSearchResults;
+    // this.productsList = this.dataService.productSearchResults;
     this.searchedImage = localStorage.getItem('user-searched-image');
+
+    if(this.searchedImage){
+        this.searchProduct();
+    }
+
     // this.refreshPage();
     // this.getResult();
-    console.log(this.productsList);
+    // console.log(this.productsList);
 
     AOS.init({
       // Global settings:
@@ -141,16 +148,16 @@ export class SearchResultComponent {
 
   }
 
-  getResult(){
-    this.productsList = this.dataService.productSearchResults.filter((prod)=>{
-      return prod?.imageUrl != 'Image not available';
-    });
-    this.productsList = this.productsList.filter((prod)=>{
-      return prod?.price.includes('INR');
-    })
-    // console.log(this.productsList);
-    console.log(this.dataService.productSearchResults);
-  }
+  // getResult(){
+  //   this.productsList = this.dataService.productSearchResults.filter((prod)=>{
+  //     return prod?.imageUrl != 'Image not available';
+  //   });
+  //   this.productsList = this.productsList.filter((prod)=>{
+  //     return prod?.price.includes('INR');
+  //   })
+  //   // console.log(this.productsList);
+  //   console.log(this.dataService.productSearchResults);
+  // }
 
   sortProducts() {
     switch (this.selectedSort) {
@@ -209,17 +216,23 @@ export class SearchResultComponent {
 
 
   searchProduct(){
+    this.loading = true;
+    this.productsList = [];
     let payload = {
-      url:this.url
+      url:this.url || this.searchedImage
     }
     this.dataService.fnSearchProduct(payload).subscribe({
       next: (response:any)=>{
         // console.log(response);
+        this.loading = false;
         localStorage.setItem('user-searched-image', this.url);
         this.productsList = response?.sample;
+        this.productsList = this.productsList.filter(p=>p.price.includes('₹'));
+        console.log(this.productsList);
         console.log(this.dataService);
       },
       error: (err)=>{
+        this.loading = false;
         console.error(err.error.error)
       }
     })

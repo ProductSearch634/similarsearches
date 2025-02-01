@@ -1,0 +1,164 @@
+<header class="hero">
+    <div class="container">
+        <h1>Find the Best Deals Across the Internet with One Image</h1>
+        <p>Stop overpaying. Just paste an image URL and discover the lowest prices from all major retailers</p>
+        <div class="search-box">
+            <input [(ngModel)]="url" type="text" placeholder="Paste your image URL here..." (keyup.enter)="searchProduct()">
+            <button (click)="searchProduct()">Search</button>
+        </div>
+    </div>
+</header>
+
+<!-- How It Works -->
+<section class="how-it-works">
+    <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Find Product</h3>
+                <p>Spot a product you like on any website</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Copy Image</h3>
+                <p>Copy the product image URL</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Search Here</h3>
+                <p>Paste the URL in our search box</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Compare & Save</h3>
+                <p>Get the best prices across platforms</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Benefits -->
+<section class="benefits">
+    <div class="container">
+        <h2 class="section-title">Why Choose Us</h2>
+        <div class="benefits-grid text-white">
+            <div class="benefit-card">
+                <div class="benefit-icon"><img src="assets/images/clock.svg" alt=""></div>
+                <h3>Save Time</h3>
+                <p>Stop visiting multiple sites manually. Get all prices in one place.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon"><img src="assets/images/money.svg" alt=""></div>
+                <h3>Save Money</h3>
+                <p>Find the absolute best deals instantly across all major retailers.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon"><img src="assets/images/result.svg" alt=""></div>
+                <h3>Reliable Results</h3>
+                <p>Real-time price comparisons from verified sellers only.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trust Section -->
+<section class="trust">
+    <div class="container">
+        <h2 class="section-title">Trusted by Shoppers</h2>
+        <div class="stats-grid">
+            <div class="stat">
+                <div class="stat-number">500+</div>
+                <div class="text-white">Supported Retailers</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">$1M+</div>
+                <div class="text-white">Saved by Users</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">50K+</div>
+                <div class="text-white">Daily Searches</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">99%</div>
+                <div class="text-white">Accurate Results</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+    <div class="container">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question text-white">How does it work?</div>
+                <div class="faq-answer">Simply paste any product image URL and we'll find matching products across hundreds of retailers.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question text-white">Is it free to use?</div>
+                <div class="faq-answer">Yes, our service is completely free for all users.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question text-white">Which stores do you search?</div>
+                <div class="faq-answer">We search across all major e-commerce platforms including Amazon, Flipkart, and many more.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+    <div class="container">
+        <h2>Start Saving Today</h2>
+        <p>Join thousands of smart shoppers who save money every day</p>
+        <a href="#" class="cta-button">Try It Now - It's Free</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>Product</h3>
+                <ul>
+                    <li>Features</li>
+                    <li>How it Works</li>
+                    <li>Pricing</li>
+                    <li>FAQ</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul>
+                    <li>About Us</li>
+                    <li>Blog</li>
+                    <li>Careers</li>
+                    <li>Contact</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul>
+                    <li>Privacy Policy</li>
+                    <li>Terms of Service</li>
+                    <li>Cookie Policy</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul>
+                    <li>Twitter</li>
+                    <li>Facebook</li>
+                    <li>Instagram</li>
+                    <li>LinkedIn</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025. All rights reserved.
+        </div>
+    </div>
+</footer>

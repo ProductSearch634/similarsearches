@@ -18,13 +18,11 @@ export class SearchComponent {
   dataService : DataService = inject(DataService);
   router: Router = inject(Router);
   detectionService : DeviceDetectionService = inject(DeviceDetectionService);
-
   loading$ = this.dataService.loading$;
+  userInfo: any = {};
 
   ngOnInit(){
-
-    console.log(this.detectionService.getDeviceInfo());
-
+    this.getUserInfo();
   }
 
   constructor(){
@@ -44,6 +42,27 @@ export class SearchComponent {
       },
       error: (err)=>{
         console.error(err.error.error)
+      }
+    })
+  }
+
+
+  getUserInfo(){
+    const info = this.detectionService.getDeviceInfo();
+    console.log(info);
+    this.userInfo.browser = info.browser;
+    this.userInfo.device = info.device;
+    this.userInfo.os = info.os;
+    this.userInfo.os = info.os;
+    this.detectionService.getDeviceIPAddressAndLocation().subscribe({
+      next: (response:any)=>{
+        this.userInfo.ipAddress = response?.ip;
+        this.userInfo.country_name = response?.country_name;
+        this.userInfo.country_code = response?.country_code;
+        this.userInfo.city = response?.city;
+        this.userInfo.postal = response?.postal;
+
+        console.log(this.userInfo);
       }
     })
   }

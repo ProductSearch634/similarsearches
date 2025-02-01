@@ -1,29 +1,36 @@
 <div class="container-fluid">
     <div class="row h-100 d-flex justify-content-center align-items-center">
-        <div class="d-flex flex-column justify-content-center align-items-center text-center gap-5" [style.padding]="'50px'">
-        <p class=""> <span [style.fontSize]="'55px'" [style.fontWeight]="'800'" [style.fontFamily]="'Paytone One, serif'">From Lens to Cart</span> <br> 
-                        <span [style.fontSize]="'30px'" [style.fontWeight]="'600'">Visual Shopping <img src="assets/images/shopping-gif.gif" alt=""> Made Simple</span></p>
-        <div class="upload-container pt-0">
-            <!-- <div class="dropzone">
-                <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="17 8 12 3 7 8"/>
-                    <line x1="12" y1="3" x2="12" y2="15"/>
-                </svg>
-                <h2>Drag and drop your image here</h2>
-                <p>or click to select a file</p>
-            </div>
-    
-            <div class="divider">
-                <span>OR</span>
-            </div> -->
-    
-            <div class="url-input-container">
-                <input [(ngModel)]="url" type="text" class="url-input" placeholder="Paste the URL of image" (keyup.enter)="searchProduct()">
-                <button class="upload-btn" (click)="searchProduct()">Search</button>
+
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="d-flex flex-column justify-content-start gap-5" [style.padding]="'50px'" [style.marginTop]="'70px'">
+                <p class=""> <span [style.color]="'white'" [style.fontSize]="'80px'" [style.fontWeight]="'800'">From Lens to Cart</span> <br> 
+                                <span [style.color]="'#B1B5BD'" [style.fontSize]="'30px'" [style.fontWeight]="'600'">Visual Shopping <img src="assets/images/shopping-gif.gif" alt=""> Made Simple</span></p>
+                <div class="upload-container pt-0">
+                    <!-- <div class="dropzone">
+                        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                        <h2>Drag and drop your image here</h2>
+                        <p>or click to select a file</p>
+                    </div>
+            
+                    <div class="divider">
+                        <span>OR</span>
+                    </div> -->
+            
+                    <div class="url-input-container">
+                        <input [(ngModel)]="url" type="text" class="url-input" placeholder="Paste the URL of image" (keyup.enter)="searchProduct()">
+                        <button class="upload-btn" (click)="searchProduct()">Search</button>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
+        <div class="col-md-1"></div>
+
+        
     </div>
 </div>
 

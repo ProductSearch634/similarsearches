@@ -1,26 +1,18 @@
 <div class="container-fluid">
     <main class="row" [style.padding]="'50px'"> 
-        <!-- <aside class="col-md-3 d-flex justify-content-center"> 
-            <div class="position-fixed text-center">
-            <div class="search-container-2">
-                <img src="https://m.media-amazon.com/images/I/310ofQZuU1L._SY300_SX300_.jpg" alt="Product Image">
-                <div class="search-wrapper">
-                    <button class="search-btn">Search new product</button>
-                </div>
-            </div>
-
-        </div>
-        </aside> -->
         <div class="col-md-1"></div>
-        <section class="col-md-10" [style.background]="'#fff'" [style.padding]="'30px'" [style.borderRadius]="'20px'"> 
+        <section class="col-md-10"> 
             <header class="grid-list-view mb-5"> 
                 <div>
-                    <h1 class="mb-2">Search Results</h1> 
-                    <p class="mb-0"><strong>Total results found:</strong> <span class="ms-1">{{productsList?.length}}</span></p>
+                    <h1 class="mb-2 text-white">Search Results</h1> 
+                    <p class="mt-4 mb-0" [style.fontSize]="'20px'" [style.color]="'rgb(177, 181, 189)'"><strong>Total results found:</strong> <span class="ms-1">{{productsList?.length}}</span></p>
                 </div>
+            </header>
+
+            <div class="d-flex justify-content-between mb-5">
                 <div class="position-relative">
-                    <input (keyup.enter)="searchProduct()" [(ngModel)]="url" class="image-search-input" type="text" name="" id="" placeholder="Paste the URL of image">
-                    <img class="position-absolute" [style.width]="'22px'" [style.right]="'4%'" [style.top]="'26%'" src="assets/images/search.svg" alt="" (click)="searchProduct()">
+                    <input (keyup.enter)="searchProduct()" [(ngModel)]="url" class="image-search-input" type="text" name="" id="" placeholder="Paste the URL of image and hit enter">
+                    <!-- <img class="position-absolute" [style.width]="'22px'" [style.right]="'4%'" [style.top]="'26%'" src="assets/images/search.svg" alt="" (click)="searchProduct()"> -->
                 </div>
                 <div class="d-flex justify-content-center align-items-center gap-4">
                     <a 
@@ -28,23 +20,24 @@
                         [style.border]="'none'"
                         (click)="showGridView = true"
                         aria-label="Switch to grid view">
-                        <img src="assets/images/grid.svg" alt="Grid view icon" width="24" height="24">
+                        <img [style.filter]="'invert(1)'" src="assets/images/grid.svg" alt="Grid view icon" width="24" height="24">
                     </a>
                     <a 
                         [ngClass]="{'active-view': !showGridView}"
                         [style.border]="'none'"
                         (click)="showGridView = false"
                         aria-label="Switch to list view">
-                        <img src="assets/images/list.svg" alt="List view icon" width="24" height="24">
+                        <img [style.filter]="'invert(1)'" src="assets/images/list.svg" alt="List view icon" width="24" height="24">
                     </a>
                 </div>
-            </header>
-            <ng-container *ngIf="productsList?.length; else noProductFound">
+            </div>
+
+        <ng-container *ngIf="productsList?.length && loading == false">
             @if (showGridView) {
             <section class="products-grid" role="grid" aria-label="Products grid view">
                 @for (prod of productsList; track $index) {
                 <div class="product-card">
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center bg-white" [style.borderRadius]="'8px'">
                     <img [src]="prod?.imageUrl" alt="Red Chief Men's Cool Shoes" class="product-image">
                     </div>
                         <div class="price-tag">{{prod?.price}}</div>
@@ -141,8 +134,8 @@
             </section>
             }
         </ng-container>
-        <ng-template #noProductFound>
-            <div class="no-product-found d-flex flex-column justify-content-center align-items-center text-center mb-5">
+        <!-- <ng-template #noProductFound> -->
+            <!-- <div class="no-product-found d-flex flex-column justify-content-center align-items-center text-center mb-5">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" [style.width]="'200px'">
                     <text x="45" y="45" font-size="24" fill="#808080">?</text>
                     
@@ -171,14 +164,30 @@
                   </svg>
                 <p class="not-found-message">No Exact Products Found!</p>
                 <p class="text-secondary">Try searching with a different image URL</p>
+            </div> -->
+
+            @if (loading) {
+            <div class="loading-skeleton">
+            <p-skeleton width="288px" height="525px"/>
+            <p-skeleton width="288px" height="525px"/>
+            <p-skeleton width="288px" height="525px"/>
+            <p-skeleton width="288px" height="525px"/>
+            <p-skeleton width="288px" height="525px"/>
+            <p-skeleton width="288px" height="525px"/>
+            <p-skeleton width="288px" height="525px"/>
+            <p-skeleton width="288px" height="525px"/>
+            <p-skeleton width="288px" height="525px"/>
+            <p-skeleton width="288px" height="525px"/>
             </div>
-        </ng-template>
+        }
+
+       <!-- </ng-template> -->
         </section>
         <div class="col-md-1"></div>
     </main>
 </div>
 
-<app-progress-loader [loading]="loading$ | async"></app-progress-loader>
+<!-- <app-progress-loader [loading]="loading$ | async"></app-progress-loader> -->
 
 
 <div *ngIf="isVisible" class="go-to-top" data-aos="fade-up"
