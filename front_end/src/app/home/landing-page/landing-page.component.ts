@@ -4,10 +4,11 @@ import { DeviceDetectionService } from '../../shared/services/device-detection.s
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-landing-page',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NavbarComponent],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.css'
 })

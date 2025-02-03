@@ -1,13 +1,16 @@
 .container {
-    max-width: 1200px;
+    /* max-width: 1200px; */
     margin: 0 auto;
     padding: 0 20px;
 }
 
 /* Hero Section */
 .hero {
-    padding: 60px 0 200px 0px;
     text-align: center;
+    height: 88vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .hero h1 {
@@ -198,11 +201,13 @@
 .cta h2 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
+    color: white;
 }
 
 .cta p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
+    color: white;
 }
 
 .cta-button {

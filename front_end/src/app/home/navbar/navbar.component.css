@@ -5,11 +5,11 @@
     font-weight: 700;
     cursor: pointer;
     /* background: white; */
-    margin-top: 20px;
+    /* margin-top: 20px; */
     /* border-radius: 30px; */
-    padding: 20px;
+    /* padding: 20px; */
     width: 100%;
-    justify-content: start;
+    justify-content: end;
 }
 
 .nav-links li{  
@@ -22,4 +22,10 @@
 
 .active{
     color: #998ddd;
+}
+
+.logo{
+    color: white;
+    font-size: 50px;
+    font-weight: 700;
 }
